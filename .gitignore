@@ -2,9 +2,6 @@
 __pycache__/
 *.pyc
 .env
-# Datos crudos grandes (van con DVC, no con Git)
-data/raw/
-data/processed/
 # Modelos serializados (van con DVC, no con Git)
 models/
 # MLflow
