@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🔍 MLOps Local – Predicción de Churn de Clientes
 
 **Proyecto académico · ISTEA – Laboratorio de Minería de Datos**  
@@ -262,3 +263,7 @@ Proyecto académico desarrollado para la materia **Laboratorio de Minería de Da
 - Ronald Boyd
 - Rodrigo Figueredo
 - Nicolás Sala
+=======
+# Proyecto-Lab.-Mineria-de-datos
+Trabajo integrador de la asignatura Mineria de Datos II
+>>>>>>> 807ee4f1c3c6f8025d68724873d57a0f353fcb0d
