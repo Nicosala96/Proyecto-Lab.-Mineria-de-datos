@@ -2,8 +2,6 @@
 __pycache__/
 *.pyc
 .env
-# Modelos serializados (van con DVC, no con Git)
-models/
 # MLflow
 mlruns/
 # Jupyter checkpoints
