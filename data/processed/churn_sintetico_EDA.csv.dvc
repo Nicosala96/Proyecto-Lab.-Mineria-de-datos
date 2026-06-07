@@ -1,0 +1,5 @@
+outs:
+- md5: 679ef4ff994d4c47e6296ec957c13b4d
+  size: 347761
+  hash: md5
+  path: churn_sintetico_EDA.csv

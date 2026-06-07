@@ -1,0 +1,5 @@
+outs:
+- md5: 1ab680e7a20c50ecc02ac0f96ead9ede
+  size: 992
+  hash: md5
+  path: encoder_internet.joblib

@@ -1,0 +1,5 @@
+outs:
+- md5: c6d74638ee70f818f81129d152f38a40
+  size: 1014
+  hash: md5
+  path: encoder_payment.joblib

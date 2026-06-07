@@ -1,0 +1,5 @@
+outs:
+- md5: 650b4dad1f7e6faca113dc4648047d6f
+  size: 977
+  hash: md5
+  path: encoder_contract.joblib

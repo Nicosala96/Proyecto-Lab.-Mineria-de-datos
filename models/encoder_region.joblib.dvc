@@ -1,0 +1,5 @@
+outs:
+- md5: 9c1fffd5a25e4852dc44e801676616c8
+  size: 976
+  hash: md5
+  path: encoder_region.joblib

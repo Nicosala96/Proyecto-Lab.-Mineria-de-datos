@@ -8,3 +8,9 @@ mlruns/
 .ipynb_checkpoints/
 # Conda
 *.egg-info/
+data/raw/*
+data/processed/*
+models/*
+!data/raw/*.dvc
+!data/processed/*.dvc
+!models/*.dvc
