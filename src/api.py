@@ -8,7 +8,7 @@ from typing import Literal
 
 # ── Rutas a los artefactos ──────────────────────────────────────────────────
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-MODELS_DIR  = os.path.join(BASE_DIR, "..", "models")
+MODELS_DIR = os.environ.get("MODELS_DIR", os.path.join(BASE_DIR, "..", "models"))
 
 # ── Carga de artefactos al arrancar ─────────────────────────────────────────
 modelo          = joblib.load(os.path.join(MODELS_DIR, "logistic_regression.joblib"))

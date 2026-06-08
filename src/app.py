@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-
-API_URL = "http://localhost:8000/predecir"
+import os
+API_URL = os.getenv("API_URL", "http://localhost:8000/predecir")
 
 st.set_page_config(
     page_title="AndesLink – Predictor de Churn",
