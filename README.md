@@ -28,158 +28,149 @@ proyecto/
 │       └── churn_sintetico_EDA.csv
 │
 ├── models/                         # Artefactos serializados listos para inferencia
-│   ├── logistic_regression.joblib  # Modelo de Regresión Logística
-│   ├── decision_tree.joblib        # Modelo de Árbol de Decisión
-│   ├── scaler.joblib               # StandardScaler (normalización numérica)
-│   └── ordinal_encoder.joblib      # OrdinalEncoder (variables categóricas)
+│   ├── logistic_regression.joblib
+│   ├── decision_tree.joblib
+│   ├── scaler.joblib
+│   ├── encoder_contract.joblib
+│   ├── encoder_payment.joblib
+│   ├── encoder_internet.joblib
+│   └── encoder_region.joblib
 │
 ├── notebooks/                      # Exploración y entrenamiento en Jupyter
-│   ├── EDA.ipynb                   # Análisis exploratorio de datos
-│   └── Entrenamiento.ipynb         # Entrenamiento, evaluación y serialización
+│   ├── EDA.ipynb
+│   └── Entrenamiento.ipynb
 │
-├── src/                            # (Próximas entregas) Módulos reutilizables
-│   ├── preprocess.py
-│   └── train.py
+├── src/                            # Código fuente de la solución
+│   ├── api.py                      # API de inferencia (FastAPI)
+│   └── app.py                      # Interfaz gráfica (Streamlit)
 │
-├── tests/                          # (Próximas entregas) Pruebas con pytest
+├── tests/                          # Pruebas automáticas con pytest
+│   ├── __init__.py
+│   └── test_api.py
 │
-├── scripts/                        # Scripts auxiliares de ejecución
+├── reports/                        # Informes técnicos
 │
-├── reports/                        # Informes técnicos y gráficos generados
+├── mlruns/                         # Experimentos MLflow (auto-generado)
 │
-├── mlruns/                         # Experimentos registrados por MLflow (auto-generado)
-│
+├── Dockerfile.api                  # Imagen Docker de la API
+├── Dockerfile.streamlit            # Imagen Docker de la GUI
+├── docker-compose.yml              # Orquestación local
+├── requirements.txt                # Dependencias para Docker
 ├── environment.yml                 # Entorno reproducible de conda
-├── .gitignore                      # Archivos excluidos del control de versiones
-├── .dvc/                           # Configuración de DVC (versionado de datos)
-└── README.md                       # Este archivo
+├── .gitignore
+├── .dvcignore
+└── README.md
 ```
 
 ---
 
 ## ⚙️ Requisitos Previos
 
-- [Anaconda](https://www.anaconda.com/download) o Miniconda instalado
-- [Git](https://git-scm.com/) instalado
-- Sistema operativo: Windows 10/11 (o Linux/macOS)
+- [Anaconda](https://www.anaconda.com/download) o Miniconda
+- [Git](https://git-scm.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (para despliegue con Docker)
 
 ---
 
-## 🚀 Instalación y Configuración del Entorno
+## 🚀 Opción A — Despliegue con Docker (recomendado)
+
+Esta opción levanta la API y la GUI en contenedores aislados con un solo comando.
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <URL-del-repositorio>
-cd proyecto
+git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
+cd "Proyecto Lab. Mineria de datos"
 ```
 
-### 2. Crear el entorno de conda
+### 2. Asegurarse de tener Docker Desktop abierto y corriendo
+
+### 3. Levantar los servicios
+
+```bash
+docker-compose up --build
+```
+
+La primera vez tarda unos minutos mientras descarga las imágenes base.
+
+### 4. Acceder a los servicios
+
+| Servicio | URL |
+|----------|-----|
+| GUI (Streamlit) | http://localhost:8501 |
+| API (documentación interactiva) | http://localhost:8000/docs |
+
+### 5. Detener los servicios
+
+```bash
+docker-compose down
+```
+
+---
+
+## 🐍 Opción B — Ejecución local con conda
+
+### 1. Crear y activar el entorno
 
 ```bash
 conda env create -f environment.yml
-```
-
-### 3. Activar el entorno
-
-```bash
 conda activate andeslink-churn
 ```
 
-### 4. Verificar la instalación
+### 2. Ejecutar los notebooks en orden
 
 ```bash
-python -c "import sklearn, mlflow, joblib, pandas; print('Entorno OK')"
+jupyter lab
+```
+
+- Primero `notebooks/EDA.ipynb` → genera `data/processed/churn_sintetico_EDA.csv`
+- Luego `notebooks/Entrenamiento.ipynb` → genera los modelos en `models/`
+
+### 3. Levantar la API (Terminal 1)
+
+```bash
+cd src
+uvicorn api:app --reload
+```
+
+### 4. Levantar la GUI (Terminal 2)
+
+```bash
+cd src
+streamlit run app.py
 ```
 
 ---
 
-## 📓 Ejecución de los Notebooks
-
-Los notebooks deben ejecutarse **en orden** desde la carpeta `notebooks/`.
-
-### Paso 1 – Análisis Exploratorio (EDA)
+## 🧪 Pruebas automáticas
 
 ```bash
-jupyter lab notebooks/EDA.ipynb
+conda activate andeslink-churn
+pytest tests/test_api.py -v
 ```
 
-**Qué hace:**
-- Carga el dataset crudo desde `data/raw/churn_sintetico.csv`
-- Analiza calidad de datos (nulos, duplicados, tipos)
-- Genera visualizaciones de distribución y comportamiento por variables clave
-- Exporta el dataset procesado a `data/processed/churn_sintetico_EDA.csv`
-
-### Paso 2 – Entrenamiento y Serialización
-
-```bash
-jupyter lab notebooks/Entrenamiento.ipynb
-```
-
-**Qué hace:**
-- Carga el dataset procesado desde `data/processed/`
-- Aplica encoding ordinal a variables categóricas (`contract_type`, `payment_method`, `internet_service`, `region`)
-- Escala variables numéricas con `StandardScaler`
-- Entrena dos modelos: **Árbol de Decisión** y **Regresión Logística**
-- Evalúa con métricas: accuracy, F1-score, matriz de confusión, classification report
-- Registra experimentos en MLflow (`mlruns/`)
-- Serializa todos los artefactos en `models/`
+Resultado esperado: **6 passed**.
 
 ---
 
-## 📊 Seguimiento de Experimentos con MLflow
-
-Una vez ejecutado el notebook de entrenamiento, podés acceder a la interfaz de MLflow para comparar experimentos:
+## 📊 Seguimiento de experimentos con MLflow
 
 ```bash
 mlflow ui
 ```
 
-Luego abrí en el navegador: [http://localhost:5000](http://localhost:5000)
-
-Verás el experimento `Analisis_Churn_Clientes` con las runs:
-- `Regresion_Logistica` — accuracy, f1_score, artefacto del modelo
-- `Arbol_Decision` — accuracy, f1_score, artefacto del modelo
+Abrí en el navegador: http://localhost:5000
 
 ---
 
-## 🤖 Modelos Entrenados
+## 🤖 Modelos entrenados
 
 | Modelo | Archivo | Descripción |
 |--------|---------|-------------|
-| Regresión Logística | `models/logistic_regression.joblib` | Penalty L1, solver liblinear, class_weight ajustado |
-| Árbol de Decisión | `models/decision_tree.joblib` | max_depth=3, criterion gini, class_weight ajustado |
-| Scaler | `models/scaler.joblib` | StandardScaler ajustado sobre variables numéricas |
-| Encoder | `models/ordinal_encoder.joblib` | OrdinalEncoder para variable `region` |
-
-### Cargar un modelo para inferencia
-
-```python
-import joblib
-import pandas as pd
-
-# Cargar artefactos
-modelo = joblib.load('models/logistic_regression.joblib')
-scaler = joblib.load('models/scaler.joblib')
-
-# Preparar un ejemplo de entrada (valores ya procesados)
-X_nuevo = pd.DataFrame([{
-    'tenure_months': 24,
-    'monthly_charge': 85.0,
-    'support_tickets': 2,
-    'late_payments': 0,
-    'avg_monthly_usage_gb': 40.0,
-    'contract_type': 1,   # anual
-    'customer_age': 35
-}])
-
-columnas_num = ['tenure_months', 'monthly_charge', 'support_tickets',
-                'late_payments', 'avg_monthly_usage_gb', 'customer_age']
-
-X_nuevo[columnas_num] = scaler.transform(X_nuevo[columnas_num])
-prediccion = modelo.predict(X_nuevo)
-print("Churn:", prediccion[0])  # 0 = se queda, 1 = se va
-```
+| Regresión Logística | `logistic_regression.joblib` | Penalty L1, solver liblinear |
+| Árbol de Decisión | `decision_tree.joblib` | max_depth=3, criterion gini |
+| Scaler | `scaler.joblib` | StandardScaler — variables numéricas |
+| Encoders | `encoder_*.joblib` | OrdinalEncoder por variable categórica |
 
 ---
 
@@ -188,77 +179,30 @@ print("Churn:", prediccion[0])  # 0 = se queda, 1 = se va
 | Campo | Detalle |
 |-------|---------|
 | Fuente | Dataset sintético generado para el proyecto |
-| Archivo original | `data/raw/churn_sintetico.csv` |
 | Registros | 5.000 clientes |
 | Variable objetivo | `churn` (0/1) |
 
-**Variables principales:**
+---
 
-| Variable | Tipo | Descripción |
-|----------|------|-------------|
-| `customer_age` | Numérica | Edad del cliente |
-| `tenure_months` | Numérica | Meses de antigüedad |
-| `monthly_charge` | Numérica | Cargo mensual |
-| `total_charges` | Numérica | Total facturado |
-| `avg_monthly_usage_gb` | Numérica | Uso mensual promedio en GB |
-| `support_tickets` | Numérica | Tickets de soporte abiertos |
-| `late_payments` | Numérica | Pagos tardíos |
-| `contract_type` | Categórica | mensual / anual / bianual |
-| `payment_method` | Categórica | transferencia / debito / efectivo / credito |
-| `internet_service` | Categórica | cable / fibra / movil / ninguno |
-| `region` | Categórica | centro / norte / oeste / sur |
-| `churn` | Binaria (target) | 0 = activo, 1 = abandona |
+## 🔄 Versionado
+
+- **Git** — control de versiones del código
+- **DVC** — versionado de datos y modelos (`data/` y `models/`)
+- **MLflow** — tracking de experimentos de entrenamiento
 
 ---
 
-## 🔄 Versionado del Proyecto
-
-### Git – Control de versiones del código
-
-```bash
-# Ver estado del repositorio
-git status
-
-# Ver historial de commits
-git log --oneline
-```
-
-### DVC – Versionado de datos y pipeline
-
-```bash
-# Ver el estado de los archivos trackeados por DVC
-dvc status
-
-# Reproducir el pipeline completo
-dvc repro
-```
-
----
-
-## 🐍 Entorno reproducible (`environment.yml`)
-
-El archivo `environment.yml` en la raíz del proyecto define todas las dependencias necesarias. Si necesitás actualizar el entorno después de cambios:
-
-```bash
-conda env update -f environment.yml --prune
-```
-
----
-
-## 📌 Estado del Proyecto por Entrega
+## 📌 Estado del Proyecto
 
 | Entrega | Estado | Descripción |
 |---------|--------|-------------|
-| ✅ Primer Parcial | Completado | EDA, entrenamiento, serialización, MLflow, Git |
-| 🔲 Segundo Parcial | Pendiente | API FastAPI, GUI Streamlit, Docker |
+| ✅ Primer Parcial | Completado | EDA, entrenamiento, serialización, MLflow, DVC, Git |
+| ✅ Segundo Parcial | Completado | API FastAPI, GUI Streamlit, Docker, pytest |
 | 🔲 Examen Final | Pendiente | Prometheus, Grafana, Evidently, video |
 
 ---
 
 ## 👥 Autores
 
-Proyecto académico desarrollado para la materia **Laboratorio de Minería de Datos** – ISTEA.
-
-- Ronald Boyd
-- Rodrigo Figueredo
-- Nicolás Sala
+Ronald Boyd - Rodrigo Figueredo - Nicolas Sala
+Proyecto académico desarrollado para **Laboratorio de Minería de Datos** – ISTEA.
