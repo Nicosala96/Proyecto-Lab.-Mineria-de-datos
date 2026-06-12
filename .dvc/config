@@ -1,4 +1,4 @@
 [core]
-    remote = myremote
-['remote "myremote"']
-    url = gdrive://1woa-qD8cqwhmWEQ9PC6A7qvRF8EGSGfw
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos.dvc
