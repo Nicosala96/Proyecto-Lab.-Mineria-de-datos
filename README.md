@@ -88,16 +88,22 @@ git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
 cd Proyecto-Lab.-Mineria-de-datos
 ```
 
-### 2. Crear el entorno
+### 2. Crear y activar el entorno
 
 ```bash
 conda create -n andeslink-churn python=3.13
 conda activate andeslink-churn
-pip install -r requirements.txt
-pip install dvc dvc-gdrive mlflow jupyter jupyterlab
 ```
 
-### 3. Configurar credenciales de DagsHub
+### 3. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+pip install "dvc[http]"
+pip install mlflow jupyter jupyterlab
+```
+
+### 4. Configurar credenciales de DagsHub
 
 ```bash
 dvc remote modify --local origin auth basic
@@ -105,15 +111,15 @@ dvc remote modify --local origin user TU_USUARIO_DAGSHUB
 dvc remote modify --local origin password TU_TOKEN_DAGSHUB
 ```
 
-### 4. Descargar datos y modelos
+### 5. Descargar datos y modelos
 
 ```bash
 dvc pull
 ```
 
-### 5. Asegurarse de tener Docker Desktop abierto y corriendo
+### 6. Asegurarse de tener Docker Desktop abierto y corriendo
 
-### 6. Levantar los servicios
+### 7. Levantar los servicios
 
 ```bash
 docker-compose up --build
@@ -121,14 +127,14 @@ docker-compose up --build
 
 La primera vez tarda unos minutos mientras descarga las imágenes base.
 
-### 7. Acceder a los servicios
+### 8. Acceder a los servicios
 
 | Servicio | URL |
 |----------|-----|
 | GUI (Streamlit) | http://localhost:8501 |
 | API (documentación interactiva) | http://localhost:8000/docs |
 
-### 8. Detener los servicios
+### 9. Detener los servicios
 
 ```bash
 docker-compose down
@@ -150,11 +156,17 @@ cd Proyecto-Lab.-Mineria-de-datos
 ```bash
 conda create -n andeslink-churn python=3.13
 conda activate andeslink-churn
-pip install -r requirements.txt
-pip install dvc dvc-gdrive mlflow jupyter jupyterlab
 ```
 
-### 3. Configurar credenciales de DagsHub
+### 3. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+pip install "dvc[http]"
+pip install mlflow jupyter jupyterlab
+```
+
+### 4. Configurar credenciales de DagsHub
 
 ```bash
 dvc remote modify --local origin auth basic
@@ -162,13 +174,13 @@ dvc remote modify --local origin user TU_USUARIO_DAGSHUB
 dvc remote modify --local origin password TU_TOKEN_DAGSHUB
 ```
 
-### 4. Descargar datos y modelos
+### 5. Descargar datos y modelos
 
 ```bash
 dvc pull
 ```
 
-### 5. Ejecutar los notebooks en orden
+### 6. Ejecutar los notebooks en orden
 
 ```bash
 jupyter lab
@@ -177,14 +189,14 @@ jupyter lab
 - Primero `notebooks/EDA.ipynb` → genera `data/processed/churn_sintetico_EDA.csv`
 - Luego `notebooks/Entrenamiento.ipynb` → genera los modelos en `models/`
 
-### 6. Levantar la API (Terminal 1)
+### 7. Levantar la API (Terminal 1)
 
 ```bash
 cd src
 uvicorn api:app --reload
 ```
 
-### 7. Levantar la GUI (Terminal 2)
+### 8. Levantar la GUI (Terminal 2)
 
 ```bash
 cd src
