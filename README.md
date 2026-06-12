@@ -68,30 +68,52 @@ proyecto/
 
 - [Anaconda](https://www.anaconda.com/download) o Miniconda
 - [Git](https://git-scm.com/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (para despliegue con Docker)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Cuenta gratuita en [DagsHub](https://dagshub.com) para poder hacer `dvc pull`
+
+### Obtener token de DagsHub
+
+1. Creá una cuenta gratuita en [https://dagshub.com](https://dagshub.com)
+2. Andá a [https://dagshub.com/user/settings/tokens](https://dagshub.com/user/settings/tokens)
+3. Generá un token nuevo y copialo — lo vas a necesitar en el paso de DVC
 
 ---
 
 ## 🚀 Opción A — Despliegue con Docker (recomendado)
 
-Esta opción levanta la API y la GUI en contenedores aislados con un solo comando.
-
 ### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
-cd "Proyecto Lab. Mineria de datos"
+cd Proyecto-Lab.-Mineria-de-datos
 ```
 
-### 2. Descargar los modelos con DVC
+### 2. Crear el entorno
+
+```bash
+conda create -n andeslink-churn python=3.13
+conda activate andeslink-churn
+pip install -r requirements.txt
+pip install dvc dvc-gdrive mlflow jupyter jupyterlab
+```
+
+### 3. Configurar credenciales de DagsHub
+
+```bash
+dvc remote modify --local origin auth basic
+dvc remote modify --local origin user TU_USUARIO_DAGSHUB
+dvc remote modify --local origin password TU_TOKEN_DAGSHUB
+```
+
+### 4. Descargar datos y modelos
 
 ```bash
 dvc pull
 ```
 
-### 3. Asegurarse de tener Docker Desktop abierto y corriendo
+### 5. Asegurarse de tener Docker Desktop abierto y corriendo
 
-### 4. Levantar los servicios
+### 6. Levantar los servicios
 
 ```bash
 docker-compose up --build
@@ -99,14 +121,14 @@ docker-compose up --build
 
 La primera vez tarda unos minutos mientras descarga las imágenes base.
 
-### 5. Acceder a los servicios
+### 7. Acceder a los servicios
 
 | Servicio | URL |
 |----------|-----|
 | GUI (Streamlit) | http://localhost:8501 |
 | API (documentación interactiva) | http://localhost:8000/docs |
 
-### 6. Detener los servicios
+### 8. Detener los servicios
 
 ```bash
 docker-compose down
@@ -116,20 +138,37 @@ docker-compose down
 
 ## 🐍 Opción B — Ejecución local con conda
 
-### 1. Crear y activar el entorno
+### 1. Clonar el repositorio
 
 ```bash
-conda env create -f environment.yml
-conda activate andeslink-churn
+git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
+cd Proyecto-Lab.-Mineria-de-datos
 ```
 
-### 2. Descargar datos y modelos con DVC
+### 2. Crear y activar el entorno
+
+```bash
+conda create -n andeslink-churn python=3.13
+conda activate andeslink-churn
+pip install -r requirements.txt
+pip install dvc dvc-gdrive mlflow jupyter jupyterlab
+```
+
+### 3. Configurar credenciales de DagsHub
+
+```bash
+dvc remote modify --local origin auth basic
+dvc remote modify --local origin user TU_USUARIO_DAGSHUB
+dvc remote modify --local origin password TU_TOKEN_DAGSHUB
+```
+
+### 4. Descargar datos y modelos
 
 ```bash
 dvc pull
 ```
 
-### 3. Ejecutar los notebooks en orden
+### 5. Ejecutar los notebooks en orden
 
 ```bash
 jupyter lab
@@ -138,14 +177,14 @@ jupyter lab
 - Primero `notebooks/EDA.ipynb` → genera `data/processed/churn_sintetico_EDA.csv`
 - Luego `notebooks/Entrenamiento.ipynb` → genera los modelos en `models/`
 
-### 4. Levantar la API (Terminal 1)
+### 6. Levantar la API (Terminal 1)
 
 ```bash
 cd src
 uvicorn api:app --reload
 ```
 
-### 5. Levantar la GUI (Terminal 2)
+### 7. Levantar la GUI (Terminal 2)
 
 ```bash
 cd src
@@ -199,7 +238,7 @@ Abrí en el navegador: http://localhost:5000
 ## 🔄 Versionado
 
 - **Git** — control de versiones del código
-- **DVC** — versionado de datos y modelos con remote en Google Drive (`dvc pull` para recuperar)
+- **DVC** — versionado de datos y modelos con remote en DagsHub
 - **MLflow** — tracking de experimentos de entrenamiento
 
 ---
@@ -216,7 +255,7 @@ Abrí en el navegador: http://localhost:5000
 
 ## 👥 Participantes
 
-| Nombre | 
+| Nombre |
 |--------|
 | Ronald Boyd |
 | Rodrigo Figueredo |
