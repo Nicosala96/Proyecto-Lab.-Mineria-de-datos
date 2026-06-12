@@ -83,7 +83,11 @@ git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
 cd "Proyecto Lab. Mineria de datos"
 ```
 
-### 2. Asegurarse de tener Docker Desktop abierto y corriendo
+### 2. Asegurarse de tener Docker Desktop abierto y corriendo y descargar datos y modelos con DVC
+
+```bash
+dvc pull
+```
 
 ### 3. Levantar los servicios
 
@@ -205,4 +209,7 @@ Abrí en el navegador: http://localhost:5000
 ## 👥 Autores
 
 Ronald Boyd - Rodrigo Figueredo - Nicolas Sala
+
+
+
 Proyecto académico desarrollado para **Laboratorio de Minería de Datos** – ISTEA.
