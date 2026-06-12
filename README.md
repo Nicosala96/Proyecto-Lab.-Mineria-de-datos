@@ -83,13 +83,15 @@ git clone https://github.com/Nicosala96/Proyecto-Lab.-Mineria-de-datos
 cd "Proyecto Lab. Mineria de datos"
 ```
 
-### 2. Asegurarse de tener Docker Desktop abierto y corriendo y descargar datos y modelos con DVC
+### 2. Descargar los modelos con DVC
 
 ```bash
 dvc pull
 ```
 
-### 3. Levantar los servicios
+### 3. Asegurarse de tener Docker Desktop abierto y corriendo
+
+### 4. Levantar los servicios
 
 ```bash
 docker-compose up --build
@@ -97,14 +99,14 @@ docker-compose up --build
 
 La primera vez tarda unos minutos mientras descarga las imágenes base.
 
-### 4. Acceder a los servicios
+### 5. Acceder a los servicios
 
 | Servicio | URL |
 |----------|-----|
 | GUI (Streamlit) | http://localhost:8501 |
 | API (documentación interactiva) | http://localhost:8000/docs |
 
-### 5. Detener los servicios
+### 6. Detener los servicios
 
 ```bash
 docker-compose down
@@ -121,7 +123,13 @@ conda env create -f environment.yml
 conda activate andeslink-churn
 ```
 
-### 2. Ejecutar los notebooks en orden
+### 2. Descargar datos y modelos con DVC
+
+```bash
+dvc pull
+```
+
+### 3. Ejecutar los notebooks en orden
 
 ```bash
 jupyter lab
@@ -130,14 +138,14 @@ jupyter lab
 - Primero `notebooks/EDA.ipynb` → genera `data/processed/churn_sintetico_EDA.csv`
 - Luego `notebooks/Entrenamiento.ipynb` → genera los modelos en `models/`
 
-### 3. Levantar la API (Terminal 1)
+### 4. Levantar la API (Terminal 1)
 
 ```bash
 cd src
 uvicorn api:app --reload
 ```
 
-### 4. Levantar la GUI (Terminal 2)
+### 5. Levantar la GUI (Terminal 2)
 
 ```bash
 cd src
@@ -191,7 +199,7 @@ Abrí en el navegador: http://localhost:5000
 ## 🔄 Versionado
 
 - **Git** — control de versiones del código
-- **DVC** — versionado de datos y modelos (`data/` y `models/`)
+- **DVC** — versionado de datos y modelos con remote en Google Drive (`dvc pull` para recuperar)
 - **MLflow** — tracking de experimentos de entrenamiento
 
 ---
@@ -206,10 +214,12 @@ Abrí en el navegador: http://localhost:5000
 
 ---
 
-## 👥 Autores
+## 👥 Participantes
 
-Ronald Boyd - Rodrigo Figueredo - Nicolas Sala
+| Nombre | 
+|--------|
+| Ronald Boyd |
+| Rodrigo Figueredo |
+| Nicolas Sala |
 
-
-
-Proyecto académico desarrollado para **Laboratorio de Minería de Datos** – ISTEA.
+**ISTEA · Laboratorio de Minería de Datos**

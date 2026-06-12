@@ -5,9 +5,17 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY models/ ./models/
+COPY models/logistic_regression.joblib ./models/
+COPY models/decision_tree.joblib ./models/
+COPY models/scaler.joblib ./models/
+COPY models/encoder_contract.joblib ./models/
+COPY models/encoder_payment.joblib ./models/
+COPY models/encoder_internet.joblib ./models/
+COPY models/encoder_region.joblib ./models/
 COPY src/api.py .
 
 EXPOSE 8000
+
+ENV MODELS_DIR=/app/models
 
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
