@@ -79,6 +79,19 @@ proyecto/
 
 ---
 
+## ⚠️ Advertencia importante antes de levantar Docker
+
+**El build de Docker requiere que los archivos `.joblib` estén presentes localmente.**  
+Si no ejecutás `dvc pull` antes de `docker-compose up --build`, el build va a fallar porque los modelos no van a existir en la carpeta `models/`.
+
+El orden correcto es siempre:
+```
+1. dvc pull   →   descarga los modelos
+2. docker-compose up --build   →   construye las imágenes
+```
+
+---
+
 ## 🚀 Opción A — Despliegue con Docker (recomendado)
 
 ### 1. Clonar el repositorio
@@ -111,7 +124,7 @@ dvc remote modify --local origin user TU_USUARIO_DAGSHUB
 dvc remote modify --local origin password TU_TOKEN_DAGSHUB
 ```
 
-### 5. Descargar datos y modelos
+### 5. Descargar datos y modelos ⚠️ obligatorio antes del build
 
 ```bash
 dvc pull
@@ -133,6 +146,7 @@ La primera vez tarda unos minutos mientras descarga las imágenes base.
 |----------|-----|
 | GUI (Streamlit) | http://localhost:8501 |
 | API (documentación interactiva) | http://localhost:8000/docs |
+| API health check | http://localhost:8000/health |
 
 ### 9. Detener los servicios
 
@@ -212,7 +226,19 @@ conda activate andeslink-churn
 pytest tests/test_api.py -v
 ```
 
-Resultado esperado: **6 passed**.
+Resultado esperado: **12 passed**.
+
+---
+
+## 🔧 Troubleshooting
+
+| Problema | Causa | Solución |
+|----------|-------|----------|
+| `docker-compose up --build` falla con `FileNotFoundError` | Los `.joblib` no están en `models/` | Ejecutar `dvc pull` primero |
+| `dvc pull` falla con error de autenticación | Token de DagsHub no configurado | Ejecutar los `dvc remote modify --local` del paso 4 |
+| `dvc` no reconocido como comando | DVC no instalado en el entorno activo | Verificar que el entorno `andeslink-churn` esté activo y ejecutar `pip install "dvc[http]"` |
+| Puerto 8000 o 8501 ocupado | Otro proceso usa el puerto | Ejecutar `docker-compose down` o cerrar el proceso que ocupa el puerto |
+| GUI muestra error de conexión | La API no está corriendo | Verificar que el contenedor `andeslink-api` esté en estado `healthy` con `docker ps` |
 
 ---
 
@@ -230,7 +256,7 @@ Abrí en el navegador: http://localhost:5000
 
 | Modelo | Archivo | Descripción |
 |--------|---------|-------------|
-| Regresión Logística | `logistic_regression.joblib` | Penalty L1, solver liblinear |
+| Regresión Logística | `logistic_regression.joblib` | Penalty L1, solver liblinear, versión 1.1.0 |
 | Árbol de Decisión | `decision_tree.joblib` | max_depth=3, criterion gini |
 | Scaler | `scaler.joblib` | StandardScaler — variables numéricas |
 | Encoders | `encoder_*.joblib` | OrdinalEncoder por variable categórica |
@@ -242,8 +268,13 @@ Abrí en el navegador: http://localhost:5000
 | Campo | Detalle |
 |-------|---------|
 | Fuente | Dataset sintético generado para el proyecto |
+| Archivo original | `data/raw/churn_sintetico.csv` |
+| Archivo procesado | `data/processed/churn_sintetico_EDA.csv` |
 | Registros | 5.000 clientes |
-| Variable objetivo | `churn` (0/1) |
+| Variable objetivo | `churn` (0 = activo, 1 = abandona) |
+| Variables numéricas | `tenure_months`, `monthly_charge`, `support_tickets`, `late_payments`, `avg_monthly_usage_gb`, `customer_age` |
+| Variables categóricas | `contract_type`, `payment_method`, `internet_service`, `region` |
+| Balance de clases | Aproximadamente 70% no churn / 30% churn |
 
 ---
 
