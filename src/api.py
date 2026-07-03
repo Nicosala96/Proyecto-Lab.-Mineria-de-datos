@@ -1,10 +1,13 @@
 import os
+import time
 import joblib
 import logging
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
+from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import Counter, Histogram
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -33,6 +36,28 @@ app = FastAPI(
     title="AndesLink – API de Predicción de Churn",
     description="Predice si un cliente abandonará el servicio (churn = 1) o no (churn = 0).",
     version=MODEL_VERSION,
+)
+
+# ── Prometheus — métricas automáticas de HTTP ────────────────────────────────
+Instrumentator().instrument(app).expose(app)
+
+# ── Prometheus — métricas de negocio ─────────────────────────────────────────
+PREDICCIONES_TOTAL = Counter(
+    "churn_predicciones_total",
+    "Total de predicciones realizadas",
+    ["resultado"]  # labels: churn o no_churn
+)
+
+PROBABILIDAD_HISTOGRAM = Histogram(
+    "churn_probabilidad",
+    "Distribución de probabilidades de churn predichas",
+    buckets=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+)
+
+LATENCIA_INFERENCIA = Histogram(
+    "churn_inferencia_segundos",
+    "Tiempo de inferencia del modelo en segundos",
+    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
 )
 
 # ── Esquema de entrada ────────────────────────────────────────────────────────
@@ -127,16 +152,24 @@ def predecir(cliente: ClienteInput):
             'region':               region,
         }])
 
-        # 3. Escalado de variables numéricas
+        # 3. Escalado y predicción con medición de latencia
         fila[columnas_num] = scaler.transform(fila[columnas_num])
 
-        # 4. Predicción
-        pred     = int(modelo.predict(fila)[0])
-        prob     = float(modelo.predict_proba(fila)[0][1])
+        inicio = time.time()
+        pred   = int(modelo.predict(fila)[0])
+        prob   = float(modelo.predict_proba(fila)[0][1])
+        latencia = time.time() - inicio
+
+        # 4. Registrar métricas de negocio
+        resultado_label = "churn" if pred == 1 else "no_churn"
+        PREDICCIONES_TOTAL.labels(resultado=resultado_label).inc()
+        PROBABILIDAD_HISTOGRAM.observe(prob)
+        LATENCIA_INFERENCIA.observe(latencia)
+
         etiqueta = "El cliente probablemente abandonará el servicio" if pred == 1 \
                    else "El cliente probablemente permanecerá activo"
 
-        logger.info("Prediccion: churn=%d, probabilidad=%.4f", pred, prob)
+        logger.info("Prediccion: churn=%d, probabilidad=%.4f, latencia=%.4fs", pred, prob, latencia)
 
         return PrediccionOutput(
             churn=pred,

@@ -1,0 +1,92 @@
+{
+  "title": "AndesLink – Monitoreo de Churn API",
+  "uid": "andeslink-churn",
+  "version": 1,
+  "schemaVersion": 36,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Requests totales por endpoint",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[1m])",
+          "legendFormat": "{{handler}} {{status_code}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Latencia de requests (p95)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))",
+          "legendFormat": "p95 {{handler}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Predicciones de Churn vs No Churn",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "rate(churn_predicciones_total[1m])",
+          "legendFormat": "{{resultado}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Distribución de probabilidad de churn",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(churn_probabilidad_bucket[5m]))",
+          "legendFormat": "p50 probabilidad",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(churn_probabilidad_bucket[5m]))",
+          "legendFormat": "p95 probabilidad",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Latencia de inferencia del modelo",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(churn_inferencia_segundos_bucket[1m]))",
+          "legendFormat": "p95 inferencia",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Total predicciones acumuladas",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "targets": [
+        {
+          "expr": "sum(churn_predicciones_total)",
+          "legendFormat": "Total",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}
