@@ -71,6 +71,6 @@ if st.button("🔍 Predecir Churn", use_container_width=True):
             st.error(f"Error en la API: {response.status_code} – {response.text}")
 
     except requests.exceptions.ConnectionError:
-        st.error("❌ No se pudo conectar con la API. Verificá que esté corriendo en http://localhost:8000")
+        st.error("❌ No se pudo conectar con la API. Verificá que el servicio esté disponible.")
     except requests.exceptions.Timeout:
         st.error("❌ La API tardó demasiado en responder.")

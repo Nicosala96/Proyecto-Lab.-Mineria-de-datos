@@ -1,0 +1,49 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-8.4.2, pluggy-1.5.0 -- C:\Users\rubik\anaconda3\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\rubik\OneDrive\Escritorio\Proyecto Lab. Mineria de datos
+plugins: anyio-4.10.0, hydra-core-1.3.2
+collecting ... collected 12 items
+
+tests/test_api.py::test_root PASSED                                      [  8%]
+tests/test_api.py::test_health_artefactos_cargados PASSED                [ 16%]
+tests/test_api.py::test_health_version_modelo PASSED                     [ 25%]
+tests/test_api.py::test_prediccion_valida PASSED                         [ 33%]
+tests/test_api.py::test_prediccion_incluye_version_modelo PASSED         [ 41%]
+tests/test_api.py::test_prediccion_contrato_invalido PASSED              [ 50%]
+tests/test_api.py::test_prediccion_campo_faltante PASSED                 [ 58%]
+tests/test_api.py::test_prediccion_edad_invalida PASSED                  [ 66%]
+tests/test_api.py::test_prediccion_valores_negativos PASSED              [ 75%]
+tests/test_api.py::test_prediccion_payment_method_invalido PASSED        [ 83%]
+tests/test_api.py::test_prediccion_internet_service_invalido PASSED      [ 91%]
+tests/test_api.py::test_prediccion_region_invalida PASSED                [100%]
+
+============================== warnings summary ===============================
+..\..\..\anaconda3\Lib\site-packages\sklearn\base.py:442
+  C:\Users\rubik\anaconda3\Lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.7.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+..\..\..\anaconda3\Lib\site-packages\sklearn\base.py:442
+  C:\Users\rubik\anaconda3\Lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.7.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+..\..\..\anaconda3\Lib\site-packages\sklearn\base.py:442
+  C:\Users\rubik\anaconda3\Lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator OrdinalEncoder from version 1.7.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+tests/test_api.py::test_prediccion_valida
+tests/test_api.py::test_prediccion_valida
+tests/test_api.py::test_prediccion_valida
+tests/test_api.py::test_prediccion_valida
+tests/test_api.py::test_prediccion_incluye_version_modelo
+tests/test_api.py::test_prediccion_incluye_version_modelo
+tests/test_api.py::test_prediccion_incluye_version_modelo
+tests/test_api.py::test_prediccion_incluye_version_modelo
+  C:\Users\rubik\anaconda3\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but OrdinalEncoder was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 12 passed, 11 warnings in 5.28s =======================

@@ -1,0 +1,255 @@
+ Image proyectolabmineriadedatos-api Building 
+ Image proyectolabmineriadedatos-gui Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.16kB 0.0s done
+#1 DONE 0.0s
+
+#2 [api internal] load build definition from Dockerfile.api
+#2 transferring dockerfile: 610B 0.0s done
+#2 DONE 0.1s
+
+#3 [gui internal] load build definition from Dockerfile.streamlit
+#3 transferring dockerfile: 279B 0.0s done
+#3 DONE 0.1s
+
+#4 [gui internal] load metadata for docker.io/library/python:3.13-slim
+#4 ...
+
+#5 [auth] library/python:pull token for registry-1.docker.io
+#5 DONE 0.0s
+
+#4 [gui internal] load metadata for docker.io/library/python:3.13-slim
+#4 DONE 2.6s
+
+#6 [api internal] load .dockerignore
+#6 transferring context: 2B 0.0s done
+#6 DONE 0.0s
+
+#7 [gui internal] load build context
+#7 transferring context: 3.32kB 0.0s done
+#7 DONE 0.1s
+
+#8 [api internal] load build context
+#8 transferring context: 17.71kB 0.0s done
+#8 DONE 0.1s
+
+#9 [api 1/5] FROM docker.io/library/python:3.13-slim@sha256:eb43ff125d8d58d7449dcba7d336c23bcac412f526d861db493b9994d8010280
+#9 resolve docker.io/library/python:3.13-slim@sha256:eb43ff125d8d58d7449dcba7d336c23bcac412f526d861db493b9994d8010280 0.1s done
+#9 sha256:a31b57aa97761cc77ad9b74bfe4b09b94fceef42fbbffc164add4c97714e6207 0B / 250B 0.2s
+#9 sha256:a31b57aa97761cc77ad9b74bfe4b09b94fceef42fbbffc164add4c97714e6207 250B / 250B 0.2s done
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 0B / 11.89MB 0.3s
+#9 sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3 0B / 1.29MB 0.2s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 0B / 29.79MB 0.2s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 1.05MB / 11.89MB 0.8s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 2.08MB / 11.89MB 0.9s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 3.15MB / 11.89MB 1.2s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 4.19MB / 11.89MB 1.5s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 5.24MB / 11.89MB 1.7s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 6.29MB / 11.89MB 2.0s
+#9 sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3 1.05MB / 1.29MB 1.8s
+#9 sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3 1.29MB / 1.29MB 1.9s done
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 7.34MB / 11.89MB 2.3s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 8.39MB / 11.89MB 2.6s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 9.44MB / 11.89MB 2.7s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 2.10MB / 29.79MB 2.6s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 10.49MB / 11.89MB 3.0s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 11.53MB / 11.89MB 3.2s
+#9 sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 11.89MB / 11.89MB 3.3s done
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 4.19MB / 29.79MB 3.6s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 6.29MB / 29.79MB 4.2s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 8.39MB / 29.79MB 4.5s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 10.49MB / 29.79MB 4.8s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 12.58MB / 29.79MB 5.3s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 14.68MB / 29.79MB 5.6s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 16.78MB / 29.79MB 5.9s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 18.87MB / 29.79MB 6.2s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 20.97MB / 29.79MB 6.6s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 23.07MB / 29.79MB 6.9s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 25.17MB / 29.79MB 7.2s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 27.26MB / 29.79MB 7.5s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 29.79MB / 29.79MB 7.9s
+#9 sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 29.79MB / 29.79MB 8.2s done
+#9 extracting sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a
+#9 extracting sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 1.9s done
+#9 extracting sha256:e95a6c7ea7d49b37920899b023ecd0e32796c976c1748491f76cae53ba86d13a 1.9s done
+#9 extracting sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3
+#9 extracting sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3 0.3s done
+#9 extracting sha256:a61b58932a647916cbcb5660218581839b5152f138bd3bde3fb496547b691bb3 0.3s done
+#9 extracting sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b
+#9 extracting sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 1.1s done
+#9 extracting sha256:d52729f33c0e79021b247352d8c6e85a041a080f74a0614dc339a31c71f21c4b 1.1s done
+#9 extracting sha256:a31b57aa97761cc77ad9b74bfe4b09b94fceef42fbbffc164add4c97714e6207 0.0s done
+#9 DONE 11.9s
+
+#10 [gui 2/5] WORKDIR /app
+#10 DONE 0.9s
+
+#11 [gui 3/5] COPY requirements.txt .
+#11 DONE 0.1s
+
+#12 [gui 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#12 3.280 Collecting fastapi==0.136.1 (from -r requirements.txt (line 1))
+#12 3.593   Downloading fastapi-0.136.1-py3-none-any.whl.metadata (28 kB)
+#12 3.662 Collecting uvicorn==0.46.0 (from -r requirements.txt (line 2))
+#12 3.701   Downloading uvicorn-0.46.0-py3-none-any.whl.metadata (6.7 kB)
+#12 3.954 Collecting pydantic==2.13.4 (from -r requirements.txt (line 3))
+#12 3.986   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+#12 4.185 Collecting scikit-learn==1.7.1 (from -r requirements.txt (line 4))
+#12 4.356   Downloading scikit_learn-1.7.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+#12 4.605 Collecting pandas==2.3.3 (from -r requirements.txt (line 5))
+#12 4.633   Downloading pandas-2.3.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+#12 5.118 Collecting numpy==2.4.4 (from -r requirements.txt (line 6))
+#12 5.151   Downloading numpy-2.4.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#12 5.201 Collecting joblib==1.5.3 (from -r requirements.txt (line 7))
+#12 5.228   Downloading joblib-1.5.3-py3-none-any.whl.metadata (5.5 kB)
+#12 5.295 Collecting streamlit==1.51.0 (from -r requirements.txt (line 8))
+#12 5.467   Downloading streamlit-1.51.0-py3-none-any.whl.metadata (9.5 kB)
+#12 5.522 Collecting requests==2.33.1 (from -r requirements.txt (line 9))
+#12 5.554   Downloading requests-2.33.1-py3-none-any.whl.metadata (4.8 kB)
+#12 5.611 Collecting starlette>=0.46.0 (from fastapi==0.136.1->-r requirements.txt (line 1))
+#12 5.639   Downloading starlette-1.3.1-py3-none-any.whl.metadata (6.4 kB)
+#12 5.688 Collecting typing-extensions>=4.8.0 (from fastapi==0.136.1->-r requirements.txt (line 1))
+#12 5.717   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#12 5.751 Collecting typing-inspection>=0.4.2 (from fastapi==0.136.1->-r requirements.txt (line 1))
+#12 5.779   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+#12 5.811 Collecting annotated-doc>=0.0.2 (from fastapi==0.136.1->-r requirements.txt (line 1))
+#12 5.852   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+#12 5.896 Collecting click>=7.0 (from uvicorn==0.46.0->-r requirements.txt (line 2))
+#12 5.923   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+#12 5.956 Collecting h11>=0.8 (from uvicorn==0.46.0->-r requirements.txt (line 2))
+#12 5.983   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#12 6.025 Collecting annotated-types>=0.6.0 (from pydantic==2.13.4->-r requirements.txt (line 3))
+#12 6.058   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#12 7.393 Collecting pydantic-core==2.46.4 (from pydantic==2.13.4->-r requirements.txt (line 3))
+#12 7.428   Downloading pydantic_core-2.46.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+#12 7.672 Collecting scipy>=1.8.0 (from scikit-learn==1.7.1->-r requirements.txt (line 4))
+#12 7.702   Downloading scipy-1.18.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+#12 7.773 Collecting threadpoolctl>=3.1.0 (from scikit-learn==1.7.1->-r requirements.txt (line 4))
+#12 7.814   Downloading threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+#12 7.857 Collecting python-dateutil>=2.8.2 (from pandas==2.3.3->-r requirements.txt (line 5))
+#12 7.890   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#12 8.017 Collecting pytz>=2020.1 (from pandas==2.3.3->-r requirements.txt (line 5))
+#12 8.047   Downloading pytz-2026.2-py2.py3-none-any.whl.metadata (22 kB)
+#12 8.087 Collecting tzdata>=2022.7 (from pandas==2.3.3->-r requirements.txt (line 5))
+#12 8.114   Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#12 8.157 Collecting altair!=5.4.0,!=5.4.1,<6,>=4.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 8.187   Downloading altair-5.5.0-py3-none-any.whl.metadata (11 kB)
+#12 8.225 Collecting blinker<2,>=1.5.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 8.253   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#12 8.293 Collecting cachetools<7,>=4.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 8.326   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+#12 8.381 Collecting packaging<26,>=20 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 8.411   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+#12 8.716 Collecting pillow<13,>=7.1.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 8.747   Downloading pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#12 9.024 Collecting protobuf<7,>=3.20 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.059   Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+#12 9.242 Collecting pyarrow<22,>=7.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.275   Downloading pyarrow-21.0.0-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+#12 9.316 Collecting tenacity<10,>=8.1.0 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.349   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+#12 9.381 Collecting toml<2,>=0.10.1 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.410   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+#12 9.501 Collecting watchdog<7,>=2.1.5 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.530   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+#12 9.588 Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.616   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+#12 9.667 Collecting pydeck<1,>=0.8.0b4 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.696   Downloading pydeck-0.9.3-py2.py3-none-any.whl.metadata (4.2 kB)
+#12 9.770 Collecting tornado!=6.5.0,<7,>=6.0.3 (from streamlit==1.51.0->-r requirements.txt (line 8))
+#12 9.797   Downloading tornado-6.5.7-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (2.8 kB)
+#12 9.965 Collecting charset_normalizer<4,>=2 (from requests==2.33.1->-r requirements.txt (line 9))
+#12 9.993   Downloading charset_normalizer-3.4.7-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+#12 10.04 Collecting idna<4,>=2.5 (from requests==2.33.1->-r requirements.txt (line 9))
+#12 10.07   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+#12 10.11 Collecting urllib3<3,>=1.26 (from requests==2.33.1->-r requirements.txt (line 9))
+#12 10.14   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+#12 10.18 Collecting certifi>=2023.5.7 (from requests==2.33.1->-r requirements.txt (line 9))
+#12 10.22   Downloading certifi-2026.6.17-py3-none-any.whl.metadata (2.5 kB)
+#12 10.26 Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.29   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#12 10.35 Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.38   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#12 10.45 Collecting narwhals>=1.14.2 (from altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.48   Downloading narwhals-2.23.0-py3-none-any.whl.metadata (15 kB)
+#12 10.53 Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.55   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+#12 10.59 Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.62   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+#12 10.73 Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.76   Downloading markupsafe-3.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#12 10.80 Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.84   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#12 10.88 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.91   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#12 10.96 Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 10.98   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#12 11.43 Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<6,>=4.0->streamlit==1.51.0->-r requirements.txt (line 8))
+#12 11.45   Downloading rpds_py-2026.6.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+#12 11.50 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas==2.3.3->-r requirements.txt (line 5))
+#12 11.53   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#12 11.59 Collecting anyio<5,>=3.6.2 (from starlette>=0.46.0->fastapi==0.136.1->-r requirements.txt (line 1))
+#12 11.62   Downloading anyio-4.14.1-py3-none-any.whl.metadata (4.6 kB)
+#12 11.66 Downloading fastapi-0.136.1-py3-none-any.whl (117 kB)
+#12 11.70 Downloading uvicorn-0.46.0-py3-none-any.whl (70 kB)
+#12 11.74 Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+#12 11.85 Downloading scikit_learn-1.7.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.4 MB)
+#12 13.42    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.4/9.4 MB 6.1 MB/s  0:00:01
+#12 13.45 Downloading pandas-2.3.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.3 MB)
+#12 15.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.3/12.3 MB 6.1 MB/s  0:00:02
+#12 15.52 Downloading numpy-2.4.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+#12 18.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 6.1 MB/s  0:00:02
+#12 18.27 Downloading joblib-1.5.3-py3-none-any.whl (309 kB)
+#12 18.51 Downloading streamlit-1.51.0-py3-none-any.whl (10.2 MB)
+#12 22.71    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 2.4 MB/s  0:00:04
+#12 22.74 Downloading requests-2.33.1-py3-none-any.whl (64 kB)
+#12 22.78 Downloading pydantic_core-2.46.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+#12 23.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 6.1 MB/s  0:00:00
+#12 23.16 Downloading altair-5.5.0-py3-none-any.whl (731 kB)
+#12 23.29    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 731.2/731.2 kB 5.8 MB/s  0:00:00
+#12 23.32 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+#12 23.35 Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+#12 23.39 Downloading charset_normalizer-3.4.7-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (215 kB)
+#12 23.46 Downloading click-8.4.2-py3-none-any.whl (119 kB)
+#12 23.50 Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+#12 23.56 Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+#12 23.62 Downloading idna-3.18-py3-none-any.whl (65 kB)
+#12 23.69 Downloading packaging-25.0-py3-none-any.whl (66 kB)
+#12 23.73 Downloading pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+#12 24.79    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 6.5 MB/s  0:00:01
+#12 24.82 Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl (323 kB)
+#12 24.90 Downloading pyarrow-21.0.0-cp313-cp313-manylinux_2_28_x86_64.whl (42.8 MB)
+#12 31.79    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.8/42.8 MB 6.2 MB/s  0:00:06
+#12 31.82 Downloading pydeck-0.9.3-py2.py3-none-any.whl (11.4 MB)
+#12 33.60    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.4/11.4 MB 6.4 MB/s  0:00:01
+#12 33.63 Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+#12 33.66 Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+#12 33.70 Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+#12 33.73 Downloading tornado-6.5.7-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (449 kB)
+#12 33.83 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#12 33.87 Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+#12 33.92 Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+#12 33.96 Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+#12 33.99 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#12 34.02 Downloading certifi-2026.6.17-py3-none-any.whl (133 kB)
+#12 34.08 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#12 34.12 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#12 34.17 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#12 34.21 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#12 34.25 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#12 34.29 Downloading markupsafe-3.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+#12 34.33 Downloading narwhals-2.23.0-py3-none-any.whl (458 kB)
+#12 34.43 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#12 34.49 Downloading pytz-2026.2-py2.py3-none-any.whl (510 kB)
+#12 34.61 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#12 34.65 Downloading rpds_py-2026.6.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (365 kB)
+#12 34.74 Downloading scipy-1.18.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+#12 40.37    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 6.3 MB/s  0:00:05
+#12 40.41 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#12 40.45 Downloading starlette-1.3.1-py3-none-any.whl (73 kB)
+#12 40.49 Downloading anyio-4.14.1-py3-none-any.whl (124 kB)
+#12 40.54 Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+#12 40.57 Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+#12 40.60 Downloading tzdata-2026.2-py2.py3-none-any.whl (349 kB)
+#12 41.07 Installing collected packages: pytz, watchdog, urllib3, tzdata, typing-extensions, tornado, toml, threadpoolctl, tenacity, smmap, six, rpds-py, pyarrow, protobuf, pillow, packaging, numpy, narwhals, MarkupSafe, joblib, idna, h11, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, uvicorn, typing-inspection, scipy, requests, referencing, python-dateutil, pydantic-core, jinja2, gitdb, anyio, starlette, scikit-learn, pydeck, pydantic, pandas, jsonschema-specifications, gitpython, jsonschema, fastapi, altair, streamlit
+failed to execute bake: exit status 0xc000013a
