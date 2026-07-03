@@ -1,31 +1,41 @@
 import os
 import joblib
-import numpy as np
+import logging
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
 
-# ── Rutas a los artefactos ──────────────────────────────────────────────────
-BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+# ── Rutas a los artefactos ───────────────────────────────────────────────────
+BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.environ.get("MODELS_DIR", os.path.join(BASE_DIR, "..", "models"))
+MODEL_VERSION = "1.1.0"
 
-# ── Carga de artefactos al arrancar ─────────────────────────────────────────
-modelo          = joblib.load(os.path.join(MODELS_DIR, "logistic_regression.joblib"))
-scaler          = joblib.load(os.path.join(MODELS_DIR, "scaler.joblib"))
-enc_contract    = joblib.load(os.path.join(MODELS_DIR, "encoder_contract.joblib"))
-enc_payment     = joblib.load(os.path.join(MODELS_DIR, "encoder_payment.joblib"))
-enc_internet    = joblib.load(os.path.join(MODELS_DIR, "encoder_internet.joblib"))
-enc_region      = joblib.load(os.path.join(MODELS_DIR, "encoder_region.joblib"))
+# ── Carga de artefactos al arrancar ──────────────────────────────────────────
+logger.info("Cargando artefactos desde %s", MODELS_DIR)
+modelo       = joblib.load(os.path.join(MODELS_DIR, "logistic_regression.joblib"))
+scaler       = joblib.load(os.path.join(MODELS_DIR, "scaler.joblib"))
+enc_contract = joblib.load(os.path.join(MODELS_DIR, "encoder_contract.joblib"))
+enc_payment  = joblib.load(os.path.join(MODELS_DIR, "encoder_payment.joblib"))
+enc_internet = joblib.load(os.path.join(MODELS_DIR, "encoder_internet.joblib"))
+enc_region   = joblib.load(os.path.join(MODELS_DIR, "encoder_region.joblib"))
+logger.info("Artefactos cargados correctamente")
 
-# ── App ──────────────────────────────────────────────────────────────────────
+# ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(
     title="AndesLink – API de Predicción de Churn",
     description="Predice si un cliente abandonará el servicio (churn = 1) o no (churn = 0).",
-    version="1.0.0",
+    version=MODEL_VERSION,
 )
 
-# ── Esquema de entrada ───────────────────────────────────────────────────────
+# ── Esquema de entrada ────────────────────────────────────────────────────────
 class ClienteInput(BaseModel):
     tenure_months:        int   = Field(..., ge=0,  description="Meses de antigüedad del cliente")
     monthly_charge:       float = Field(..., ge=0,  description="Cargo mensual en USD")
@@ -33,10 +43,10 @@ class ClienteInput(BaseModel):
     late_payments:        int   = Field(..., ge=0,  description="Cantidad de pagos tardíos")
     avg_monthly_usage_gb: float = Field(..., ge=0,  description="Uso promedio mensual en GB")
     customer_age:         int   = Field(..., ge=18, description="Edad del cliente")
-    contract_type:        Literal["mensual", "anual", "bianual"]                        = Field(..., description="Tipo de contrato")
-    payment_method:       Literal["transferencia", "debito", "efectivo", "credito"]     = Field(..., description="Método de pago")
-    internet_service:     Literal["cable", "fibra", "movil", "ninguno"]                 = Field(..., description="Tipo de servicio de internet")
-    region:               Literal["centro", "norte", "oeste", "sur"]                    = Field(..., description="Región geográfica")
+    contract_type:    Literal["mensual", "anual", "bianual"]                    = Field(..., description="Tipo de contrato")
+    payment_method:   Literal["transferencia", "debito", "efectivo", "credito"] = Field(..., description="Método de pago")
+    internet_service: Literal["cable", "fibra", "movil", "ninguno"]             = Field(..., description="Tipo de servicio de internet")
+    region:           Literal["centro", "norte", "oeste", "sur"]                = Field(..., description="Región geográfica")
 
     model_config = {
         "json_schema_extra": {
@@ -55,28 +65,52 @@ class ClienteInput(BaseModel):
         }
     }
 
-# ── Esquema de salida ────────────────────────────────────────────────────────
+# ── Esquema de salida ─────────────────────────────────────────────────────────
 class PrediccionOutput(BaseModel):
-    churn:       int   = Field(..., description="0 = el cliente se queda, 1 = el cliente abandona")
+    churn:        int   = Field(..., description="0 = el cliente se queda, 1 = el cliente abandona")
     probabilidad: float = Field(..., description="Probabilidad de churn entre 0 y 1")
-    etiqueta:    str   = Field(..., description="Descripción legible del resultado")
+    etiqueta:     str   = Field(..., description="Descripción legible del resultado")
+    model_version: str  = Field(..., description="Versión del modelo utilizado")
 
-# ── Endpoints ────────────────────────────────────────────────────────────────
+# ── Endpoints ─────────────────────────────────────────────────────────────────
 @app.get("/", tags=["Estado"])
-def health_check():
-    return {"estado": "ok", "mensaje": "API de churn operativa"}
+def root():
+    return {"estado": "ok", "mensaje": "API de churn operativa", "version": MODEL_VERSION}
+
+
+@app.get("/health", tags=["Estado"])
+def health():
+    """Valida que el modelo y todos los artefactos están cargados en memoria."""
+    try:
+        artefactos = {
+            "modelo": modelo is not None,
+            "scaler": scaler is not None,
+            "enc_contract": enc_contract is not None,
+            "enc_payment": enc_payment is not None,
+            "enc_internet": enc_internet is not None,
+            "enc_region": enc_region is not None,
+        }
+        todos_ok = all(artefactos.values())
+        return {
+            "estado": "ok" if todos_ok else "degradado",
+            "model_version": MODEL_VERSION,
+            "artefactos": artefactos
+        }
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Servicio no disponible: {str(e)}")
 
 
 @app.post("/predecir", response_model=PrediccionOutput, tags=["Predicción"])
 def predecir(cliente: ClienteInput):
+    logger.info("Request recibido: %s", cliente.model_dump())
     try:
         # 1. Encoding de variables categóricas
-        contract  = enc_contract.transform([[cliente.contract_type]])[0][0]
-        payment   = enc_payment.transform([[cliente.payment_method]])[0][0]
-        internet  = enc_internet.transform([[cliente.internet_service]])[0][0]
-        region    = enc_region.transform([[cliente.region]])[0][0]
+        contract = enc_contract.transform([[cliente.contract_type]])[0][0]
+        payment  = enc_payment.transform([[cliente.payment_method]])[0][0]
+        internet = enc_internet.transform([[cliente.internet_service]])[0][0]
+        region   = enc_region.transform([[cliente.region]])[0][0]
 
-        # 2. Armar DataFrame con el orden exacto que espera el modelo
+        # 2. Armar DataFrame con las 10 variables en el orden exacto del entrenamiento
         columnas_num = ['tenure_months', 'monthly_charge', 'support_tickets',
                         'late_payments', 'avg_monthly_usage_gb', 'customer_age']
 
@@ -88,18 +122,29 @@ def predecir(cliente: ClienteInput):
             'avg_monthly_usage_gb': cliente.avg_monthly_usage_gb,
             'contract_type':        contract,
             'customer_age':         cliente.customer_age,
+            'payment_method':       payment,
+            'internet_service':     internet,
+            'region':               region,
         }])
 
         # 3. Escalado de variables numéricas
         fila[columnas_num] = scaler.transform(fila[columnas_num])
 
         # 4. Predicción
-        pred      = int(modelo.predict(fila)[0])
-        prob      = float(modelo.predict_proba(fila)[0][1])
-        etiqueta  = "El cliente probablemente abandonará el servicio" if pred == 1 \
-                    else "El cliente probablemente permanecerá activo"
+        pred     = int(modelo.predict(fila)[0])
+        prob     = float(modelo.predict_proba(fila)[0][1])
+        etiqueta = "El cliente probablemente abandonará el servicio" if pred == 1 \
+                   else "El cliente probablemente permanecerá activo"
 
-        return PrediccionOutput(churn=pred, probabilidad=round(prob, 4), etiqueta=etiqueta)
+        logger.info("Prediccion: churn=%d, probabilidad=%.4f", pred, prob)
+
+        return PrediccionOutput(
+            churn=pred,
+            probabilidad=round(prob, 4),
+            etiqueta=etiqueta,
+            model_version=MODEL_VERSION
+        )
 
     except Exception as e:
+        logger.error("Error en prediccion: %s", str(e))
         raise HTTPException(status_code=500, detail=f"Error en la predicción: {str(e)}")
