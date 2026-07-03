@@ -27,11 +27,32 @@ CLIENTE_VALIDO = {
 
 # ── Tests ────────────────────────────────────────────────────────────────────
 
-def test_health_check():
+def test_root():
     """El endpoint raíz debe responder 200 y confirmar que la API está operativa."""
     response = client.get("/")
     assert response.status_code == 200
     assert response.json()["estado"] == "ok"
+
+
+def test_health_artefactos_cargados():
+    """El endpoint /health debe confirmar que todos los artefactos están cargados."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["estado"] == "ok"
+    assert data["artefactos"]["modelo"] is True
+    assert data["artefactos"]["scaler"] is True
+    assert data["artefactos"]["enc_contract"] is True
+    assert data["artefactos"]["enc_payment"] is True
+    assert data["artefactos"]["enc_internet"] is True
+    assert data["artefactos"]["enc_region"] is True
+
+
+def test_health_version_modelo():
+    """El endpoint /health debe informar la versión del modelo."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert "model_version" in response.json()
 
 
 def test_prediccion_valida():
@@ -44,10 +65,17 @@ def test_prediccion_valida():
     assert isinstance(data["etiqueta"], str)
 
 
+def test_prediccion_incluye_version_modelo():
+    """La respuesta de /predecir debe incluir la versión del modelo."""
+    response = client.post("/predecir", json=CLIENTE_VALIDO)
+    assert response.status_code == 200
+    assert "model_version" in response.json()
+
+
 def test_prediccion_contrato_invalido():
     """Un valor de contrato no permitido debe devolver error 422."""
     cliente_malo = CLIENTE_VALIDO.copy()
-    cliente_malo["contract_type"] = "trimestral"  # valor no permitido
+    cliente_malo["contract_type"] = "trimestral"
     response = client.post("/predecir", json=cliente_malo)
     assert response.status_code == 422
 
@@ -72,5 +100,29 @@ def test_prediccion_valores_negativos():
     """Valores negativos en campos numéricos deben devolver error 422."""
     cliente_malo = CLIENTE_VALIDO.copy()
     cliente_malo["monthly_charge"] = -50.0
+    response = client.post("/predecir", json=cliente_malo)
+    assert response.status_code == 422
+
+
+def test_prediccion_payment_method_invalido():
+    """Un método de pago no permitido debe devolver error 422."""
+    cliente_malo = CLIENTE_VALIDO.copy()
+    cliente_malo["payment_method"] = "criptomoneda"
+    response = client.post("/predecir", json=cliente_malo)
+    assert response.status_code == 422
+
+
+def test_prediccion_internet_service_invalido():
+    """Un servicio de internet no permitido debe devolver error 422."""
+    cliente_malo = CLIENTE_VALIDO.copy()
+    cliente_malo["internet_service"] = "satelite"
+    response = client.post("/predecir", json=cliente_malo)
+    assert response.status_code == 422
+
+
+def test_prediccion_region_invalida():
+    """Una región no permitida debe devolver error 422."""
+    cliente_malo = CLIENTE_VALIDO.copy()
+    cliente_malo["region"] = "patagonia"
     response = client.post("/predecir", json=cliente_malo)
     assert response.status_code == 422
