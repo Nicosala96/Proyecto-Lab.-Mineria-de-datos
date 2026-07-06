@@ -42,19 +42,34 @@ proyecto/
 │
 ├── src/                            # Código fuente de la solución
 │   ├── api.py                      # API de inferencia (FastAPI)
-│   └── app.py                      # Interfaz gráfica (Streamlit)
+│   ├── app.py                      # Interfaz gráfica (Streamlit)
+│   └── monitoreo_evidently.py      # Script de monitoreo de datos y modelo
 │
 ├── tests/                          # Pruebas automáticas con pytest
 │   ├── __init__.py
 │   └── test_api.py
 │
-├── reports/                        # Informes técnicos
+├── reports/                        # Informes técnicos y reportes de monitoreo
+│   ├── evidencia_tests.txt
+│   ├── evidencia_docker.txt
+│   ├── reporte_drift.html          # Generado por Evidently
+│   └── reporte_clasificacion.html  # Generado por Evidently
+│
+├── monitoring/                     # Configuración de Prometheus y Grafana
+│   ├── prometheus.yml
+│   └── grafana/
+│       └── provisioning/
+│           ├── datasources/
+│           │   └── datasource.yml
+│           └── dashboards/
+│               ├── dashboard_provider.yml
+│               └── andeslink_dashboard.json
 │
 ├── mlruns/                         # Experimentos MLflow (auto-generado)
 │
 ├── Dockerfile.api                  # Imagen Docker de la API
 ├── Dockerfile.streamlit            # Imagen Docker de la GUI
-├── docker-compose.yml              # Orquestación local
+├── docker-compose.yml              # Orquestación local (API + GUI + Prometheus + Grafana)
 ├── requirements.txt                # Dependencias para Docker
 ├── environment.yml                 # Entorno reproducible de conda
 ├── .gitignore
@@ -86,7 +101,7 @@ Si no ejecutás `dvc pull` antes de `docker-compose up --build`, el build va a f
 
 El orden correcto es siempre:
 ```
-1. dvc pull   →   descarga los modelos
+1. dvc pull                    →   descarga los modelos
 2. docker-compose up --build   →   construye las imágenes
 ```
 
@@ -114,6 +129,8 @@ conda activate andeslink-churn
 pip install -r requirements.txt
 pip install "dvc[http]"
 pip install mlflow jupyter jupyterlab
+pip install "numpy==1.26.4" --only-binary=numpy
+pip install evidently==0.4.33
 ```
 
 ### 4. Configurar credenciales de DagsHub
@@ -147,6 +164,9 @@ La primera vez tarda unos minutos mientras descarga las imágenes base.
 | GUI (Streamlit) | http://localhost:8501 |
 | API (documentación interactiva) | http://localhost:8000/docs |
 | API health check | http://localhost:8000/health |
+| Métricas Prometheus | http://localhost:8000/metrics |
+| Prometheus | http://localhost:9090 |
+| Grafana | http://localhost:3000 (usuario: admin / contraseña: admin) |
 
 ### 9. Detener los servicios
 
@@ -178,6 +198,8 @@ conda activate andeslink-churn
 pip install -r requirements.txt
 pip install "dvc[http]"
 pip install mlflow jupyter jupyterlab
+pip install "numpy==1.26.4" --only-binary=numpy
+pip install evidently==0.4.33
 ```
 
 ### 4. Configurar credenciales de DagsHub
@@ -219,6 +241,22 @@ streamlit run app.py
 
 ---
 
+## 📊 Monitoreo con Evidently
+
+Para generar los reportes de drift y degradación del modelo:
+
+```bash
+conda activate andeslink-churn
+cd src
+python monitoreo_evidently.py
+```
+
+Los reportes se guardan en `reports/`:
+- `reporte_drift.html` — detecta cambios en la distribución de las variables
+- `reporte_clasificacion.html` — evalúa degradación del modelo
+
+---
+
 ## 🧪 Pruebas automáticas
 
 ```bash
@@ -236,9 +274,11 @@ Resultado esperado: **12 passed**.
 |----------|-------|----------|
 | `docker-compose up --build` falla con `FileNotFoundError` | Los `.joblib` no están en `models/` | Ejecutar `dvc pull` primero |
 | `dvc pull` falla con error de autenticación | Token de DagsHub no configurado | Ejecutar los `dvc remote modify --local` del paso 4 |
-| `dvc` no reconocido como comando | DVC no instalado en el entorno activo | Verificar que el entorno `andeslink-churn` esté activo y ejecutar `pip install "dvc[http]"` |
-| Puerto 8000 o 8501 ocupado | Otro proceso usa el puerto | Ejecutar `docker-compose down` o cerrar el proceso que ocupa el puerto |
-| GUI muestra error de conexión | La API no está corriendo | Verificar que el contenedor `andeslink-api` esté en estado `healthy` con `docker ps` |
+| `dvc` no reconocido como comando | DVC no instalado en el entorno activo | Verificar que `andeslink-churn` esté activo y ejecutar `pip install "dvc[http]"` |
+| Puerto 8000, 8501, 9090 o 3000 ocupado | Otro proceso usa el puerto | Ejecutar `docker-compose down` o cerrar el proceso |
+| GUI muestra error de conexión | La API no está corriendo | Verificar que `andeslink-api` esté `healthy` con `docker ps` |
+| Grafana no muestra datos | Prometheus aún no recolectó métricas | Hacer algunas predicciones desde la GUI y esperar 15 segundos |
+| `evidently` falla con error de numpy | Incompatibilidad de versiones | Ejecutar `pip install "numpy==1.26.4" --only-binary=numpy` |
 
 ---
 
@@ -256,7 +296,7 @@ Abrí en el navegador: http://localhost:5000
 
 | Modelo | Archivo | Descripción |
 |--------|---------|-------------|
-| Regresión Logística | `logistic_regression.joblib` | Penalty L1, solver liblinear, versión 1.1.0 |
+| Regresión Logística | `logistic_regression.joblib` | Penalty L1, solver liblinear, v1.1.0 |
 | Árbol de Decisión | `decision_tree.joblib` | max_depth=3, criterion gini |
 | Scaler | `scaler.joblib` | StandardScaler — variables numéricas |
 | Encoders | `encoder_*.joblib` | OrdinalEncoder por variable categórica |
@@ -292,7 +332,7 @@ Abrí en el navegador: http://localhost:5000
 |---------|--------|-------------|
 | ✅ Primer Parcial | Completado | EDA, entrenamiento, serialización, MLflow, DVC, Git |
 | ✅ Segundo Parcial | Completado | API FastAPI, GUI Streamlit, Docker, pytest |
-| 🔲 Examen Final | Pendiente | Prometheus, Grafana, Evidently, video |
+| ✅ Examen Final | Completado | Prometheus, Grafana, Evidently, monitoreo |
 
 ---
 
