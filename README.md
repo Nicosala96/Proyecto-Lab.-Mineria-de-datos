@@ -119,7 +119,7 @@ cd Proyecto-Lab.-Mineria-de-datos
 ### 2. Crear y activar el entorno
 
 ```bash
-conda create -n andeslink-churn python=3.13
+conda create -n andeslink-churn python=3.12
 conda activate andeslink-churn
 ```
 
@@ -130,6 +130,7 @@ pip install -r requirements.txt
 pip install "dvc[http]"
 pip install mlflow jupyter jupyterlab
 pip install "numpy==1.26.4" --only-binary=numpy
+pip install "scipy<1.13"
 pip install evidently==0.4.33
 ```
 
